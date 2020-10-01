@@ -1,0 +1,9 @@
+
+message Chat {
+  repeated Message message = 1;
+}
+
+message Message {
+  required string text = 1;
+  required string datetime = 2;
+}
