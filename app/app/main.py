@@ -18,8 +18,8 @@ def buffer_message(message_buf, _message):
 
 
 def get_messages():
-    message_buf = chat.message.add()
     for i, _message in enumerate(range(10)):
+        message_buf = chat.message.add()
         _message = generate_dummy_messages(i)
         buffer_message(message_buf, _message)
 
