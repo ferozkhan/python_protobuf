@@ -4,11 +4,14 @@ from itertools import islice
 from app.protos.message_pb2 import Chat
 
 
-def generate_dummy_messages(i):
-    return {
-        "text": f"blah {i}",
-        "datetime": str(datetime.now())
-    }
+def generate_dummy_messages():
+    i = 0
+    while True:
+        yield {
+            "text": f"blah {i}",
+            "datetime": str(datetime.now())
+        }
+        i += 1
 
 
 def buffer_message(message_buf, _message):
@@ -18,9 +21,9 @@ def buffer_message(message_buf, _message):
 
 
 def get_messages():
-    for i, _message in enumerate(range(10)):
+    messages = islice(generate_dummy_messages(), 10)
+    for _message in messages:
         message_buf = chat.message.add()
-        _message = generate_dummy_messages(i)
         buffer_message(message_buf, _message)
 
 
