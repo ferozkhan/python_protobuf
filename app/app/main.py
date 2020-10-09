@@ -1,7 +1,10 @@
+import logging
 from datetime import datetime
 from itertools import islice
 
 from app.protos.message_pb2 import Chat
+
+log = logging.getLogger()
 
 
 def generate_dummy_messages():
@@ -15,16 +18,14 @@ def generate_dummy_messages():
 
 
 def buffer_message(message_buf, _message):
-    print('buffering messages')
+    log.info('buffering message')
     message_buf.text = _message.get("text")
     message_buf.datetime = _message.get("datetime")
 
 
-def get_messages():
-    messages = islice(generate_dummy_messages(), 10)
-    for _message in messages:
-        message_buf = chat.message.add()
-        buffer_message(message_buf, _message)
+def get_messages(number_of_messages=10):
+    messages = islice(generate_dummy_messages(), number_of_messages)
+    [buffer_message(chat.message.add(), _message) for _message in messages]
 
 
 def read_messages():
@@ -34,5 +35,5 @@ def read_messages():
 
 if __name__ == "__main__":
     chat = Chat()
-    get_messages()
+    get_messages(number_of_messages=20)
     read_messages()
